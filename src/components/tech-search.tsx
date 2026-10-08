@@ -60,8 +60,8 @@ export function TechSearch({
         <div className="grid gap-4 lg:grid-cols-[1.5fr_1fr_1fr]">
           <label className="block">
             <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Buscar</span>
-            <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5">
-              <Search className="h-4 w-4 text-slate-400" />
+            <div className="field-focus flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5">
+              <Search className="h-4 w-4 text-slate-400 transition-transform duration-200 focus-within:-translate-y-0.5" />
               <input
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
@@ -76,7 +76,7 @@ export function TechSearch({
             <select
               value={category}
               onChange={(event) => setCategory(event.target.value)}
-              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-800 outline-none"
+              className="field-focus w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-800 outline-none"
             >
               <option value="">Todas las especialidades</option>
               {categories.map((item) => (
@@ -90,7 +90,7 @@ export function TechSearch({
             <select
               value={city}
               onChange={(event) => setCity(event.target.value)}
-              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-800 outline-none"
+              className="field-focus w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-800 outline-none"
             >
               <option value="">Todas</option>
               {Array.from(new Set(technicians.map((t) => t.city).filter((item): item is string => Boolean(item)))).sort().map((item) => (
@@ -111,7 +111,7 @@ export function TechSearch({
             <select
               value={rating}
               onChange={(event) => setRating(Number(event.target.value))}
-              className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700"
+              className="field-focus rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 outline-none"
             >
               <option value={0}>Cualquiera</option>
               <option value={4}>4.0+</option>
@@ -125,7 +125,7 @@ export function TechSearch({
             <select
               value={sort}
               onChange={(event) => setSort(event.target.value as "relevance" | "rating" | "experience")}
-              className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700"
+              className="field-focus rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 outline-none"
             >
               <option value="relevance">Relevancia</option>
               <option value="rating">Valoración</option>
@@ -151,7 +151,7 @@ export function TechSearch({
           </p>
         </div>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-2 gap-3 md:gap-6 xl:grid-cols-3">
           {results.map((technician) => (
             <TechnicianCard key={technician.id} technician={technician} />
           ))}

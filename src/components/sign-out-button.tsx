@@ -32,7 +32,7 @@ export function SignOutButton() {
         type="button"
         onClick={() => void signOut()}
         disabled={busy}
-        className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-60"
+        className="interactive-button focus-ring rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-60"
       >
         {busy ? "Saliendo..." : "Cerrar sesión"}
       </button>

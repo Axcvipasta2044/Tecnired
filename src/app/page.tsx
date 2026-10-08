@@ -2,6 +2,8 @@ import Link from "next/link";
 import { ArrowRight, BadgeCheck, MapPin, ShieldCheck, Sparkles, Wrench } from "lucide-react";
 import { TechnicianCard } from "@/components/technician-card";
 import { MarketplaceSearch } from "@/components/marketplace-search";
+import { CountUp } from "@/components/ui/count-up";
+import { Reveal } from "@/components/ui/reveal";
 import { APP_TAGLINE } from "@/lib/constants";
 import { getCategories, getPublicTechnicians } from "@/lib/supabase-data";
 
@@ -30,28 +32,28 @@ export default async function HomePage() {
       <section className="mx-auto max-w-7xl px-4 pb-14 pt-10 sm:px-6 lg:px-8">
         <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-1.5 text-sm font-medium text-blue-700">
+            <div className="hero-fade-up mb-5 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-1.5 text-sm font-medium text-blue-700">
               <Sparkles className="h-4 w-4" />
               Plataforma para servicios técnicos en Perú
             </div>
-            <h1 className="max-w-xl text-4xl font-black tracking-tight text-slate-900 sm:text-5xl">
+            <h1 className="hero-fade-up max-w-xl text-4xl font-black tracking-tight text-slate-900 sm:text-5xl" style={{ animationDelay: "80ms" }}>
               {APP_TAGLINE}
             </h1>
-            <p className="mt-5 max-w-xl text-lg leading-8 text-slate-600">
+            <p className="hero-fade-up mt-5 max-w-xl text-lg leading-8 text-slate-600" style={{ animationDelay: "180ms" }}>
               Conectamos clientes con técnicos certificados y profesionales independientes para resolver mantenimiento, instalación y soporte rápido y confiable.
             </p>
 
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/tecnicos" className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700">
+            <div className="hero-fade-up mt-6 flex flex-wrap gap-3" style={{ animationDelay: "280ms" }}>
+              <Link href="/tecnicos" className="interactive-button focus-ring group inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-700">
                 Explorar técnicos
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
-              <Link href="/registro" className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-100">
+              <Link href="/registro" className="interactive-button focus-ring inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:border-slate-300 hover:bg-slate-100">
                 Registrarme
               </Link>
             </div>
 
-            <div className="mt-8 flex flex-wrap gap-5 text-sm text-slate-600">
+            <div className="hero-fade-up mt-8 flex flex-wrap gap-5 text-sm text-slate-600" style={{ animationDelay: "360ms" }}>
               <div className="inline-flex items-center gap-2">
                 <BadgeCheck className="h-4 w-4 text-emerald-600" />
                 Perfiles profesionales publicados
@@ -63,7 +65,7 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-lg shadow-slate-200/60">
+          <div className="hero-slide-in rounded-[28px] border border-slate-200 bg-white p-5 shadow-lg shadow-slate-200/60" style={{ animationDelay: "220ms" }}>
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
               <div className="mb-4 flex items-center justify-between">
                 <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">Buscar técnico</p>
@@ -76,7 +78,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
+      <Reveal as="section" className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
         <div className="mb-6 flex items-center justify-between gap-4">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-700">Categorías populares</p>
@@ -84,32 +86,32 @@ export default async function HomePage() {
           </div>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-2 md:gap-4 xl:grid-cols-4">
           {categories.slice(0, 8).map((category) => (
-            <Link key={category.id} href={`/categorias/${category.slug}`} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md">
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-blue-700">
-                <Wrench className="h-5 w-5" />
+            <Link key={category.id} href={`/categorias/${category.slug}`} className="group rounded-2xl border border-slate-200 bg-white p-3 shadow-sm transition duration-200 hover:-translate-y-1.5 hover:border-blue-300 hover:shadow-lg hover:shadow-slate-200/70 focus-ring sm:p-5">
+              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-blue-100 text-blue-700 transition duration-200 group-hover:scale-105 group-hover:bg-blue-600 group-hover:text-white sm:mb-4 sm:h-12 sm:w-12">
+                <Wrench className="h-4 w-4 transition-transform duration-200 group-hover:scale-105 sm:h-5 sm:w-5" />
               </div>
-              <h3 className="text-lg font-semibold text-slate-900">{category.name}</h3>
-              <p className="mt-2 text-sm text-slate-600">{category.description}</p>
+              <h3 className="text-sm font-semibold leading-snug text-slate-900 sm:text-lg">{category.name}</h3>
+              <p className="mt-2 hidden text-sm text-slate-600 sm:block">{category.description}</p>
             </Link>
           ))}
         </div>
-      </section>
+      </Reveal>
 
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <Reveal as="section" className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="mb-6 flex items-center justify-between gap-4">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-700">Técnicos destacados</p>
             <h2 className="mt-2 text-2xl font-bold text-slate-900">Profesionales con mejor valoración</h2>
           </div>
-          <Link href="/tecnicos" className="text-sm font-semibold text-blue-700 hover:text-blue-800">
+          <Link href="/tecnicos" className="header-link text-sm font-semibold text-blue-700 hover:text-blue-800">
             Ver todos
           </Link>
         </div>
 
         {featured.length ? (
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid grid-cols-2 gap-3 md:gap-6 xl:grid-cols-3">
             {featured.map((tech) => (
               <TechnicianCard key={tech.id} technician={tech} />
             ))}
@@ -118,21 +120,21 @@ export default async function HomePage() {
           <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center">
             <h3 className="text-xl font-semibold text-slate-900">Aún no hay técnicos publicados</h3>
             <p className="mt-2 text-sm text-slate-600">Sé el primero en crear un perfil profesional y aparecer en la plataforma.</p>
-            <Link href="/registro" className="mt-6 inline-flex rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700">
+            <Link href="/registro" className="interactive-button focus-ring mt-6 inline-flex rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700">
               Registrarme como técnico
             </Link>
           </div>
         )}
-      </section>
+      </Reveal>
 
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <Reveal as="section" className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-2">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-700">Cómo funciona</p>
             <h2 className="mt-2 text-2xl font-bold text-slate-900">Una experiencia simple para clientes y técnicos</h2>
             <div className="mt-6 space-y-4">
               {howItWorks.map((item, index) => (
-                <div key={item.title} className="flex gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                <div key={item.title} className="flex gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-blue-200 hover:shadow-md">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-sm font-bold text-white">{index + 1}</div>
                   <div>
                     <h3 className="font-semibold text-slate-900">{item.title}</h3>
@@ -151,21 +153,21 @@ export default async function HomePage() {
             </p>
             <div className="mt-6 space-y-3">
               {benefits.map((benefit) => (
-                <div key={benefit} className="flex items-start gap-3 rounded-xl border border-slate-800 bg-slate-900 p-3">
-                  <ShieldCheck className="mt-0.5 h-4 w-4 text-emerald-400" />
+                <div key={benefit} className="group flex items-start gap-3 rounded-xl border border-slate-800 bg-slate-900 p-3 transition duration-200 hover:border-slate-700 hover:bg-slate-900/80">
+                  <ShieldCheck className="mt-0.5 h-4 w-4 text-emerald-400 transition-transform duration-200 group-hover:scale-105" />
                   <span className="text-sm text-slate-200">{benefit}</span>
                 </div>
               ))}
             </div>
-            <Link href="/registro" className="mt-6 inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-slate-900 transition hover:bg-slate-100">
+            <Link href="/registro" className="interactive-button focus-ring group mt-6 inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-slate-900 hover:bg-slate-100">
               Registrarme como técnico
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
         </div>
-      </section>
+      </Reveal>
 
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <Reveal as="section" className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
           <div className="grid gap-8 md:grid-cols-4">
             {[
@@ -176,27 +178,27 @@ export default async function HomePage() {
             ].map((item) => (
               <div key={item.label}>
                 <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">{item.label}</p>
-                <h3 className="mt-3 text-3xl font-black text-slate-900">{item.value.toLocaleString("es-PE")}</h3>
+                <h3 className="mt-3 text-3xl font-black text-slate-900"><CountUp value={item.value} /></h3>
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </Reveal>
 
-      <section className="mx-auto max-w-7xl px-4 pb-16 pt-6 sm:px-6 lg:px-8">
+      <Reveal as="section" className="mx-auto max-w-7xl px-4 pb-16 pt-6 sm:px-6 lg:px-8">
         <div className="rounded-3xl bg-blue-50 p-8 text-slate-900">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-700">Registro</p>
               <h3 className="mt-2 text-2xl font-bold">¿Eres técnico? Publica tu perfil y empieza a recibir solicitudes.</h3>
             </div>
-            <Link href="/registro" className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700">
+            <Link href="/registro" className="interactive-button focus-ring group inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700">
               Crear mi perfil
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
         </div>
-      </section>
+      </Reveal>
     </div>
   );
 }

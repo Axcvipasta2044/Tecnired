@@ -37,7 +37,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         </Link>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-2 gap-3 md:gap-6 xl:grid-cols-3">
         {matches.length > 0 ? matches.map((tech) => <TechnicianCard key={tech.id} technician={tech} />) : <div className="col-span-full rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-center text-slate-600">No hay técnicos publicados en esta categoría todavía.</div>}
       </div>
 

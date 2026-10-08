@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { ThemeScript } from "@/components/theme-script";
 import { APP_NAME, APP_DESCRIPTION } from "@/lib/constants";
 
 const geistSans = Geist({
@@ -25,7 +26,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="es"
       className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth antialiased`}
+      suppressHydrationWarning
     >
+      <head>
+        <ThemeScript />
+      </head>
       <body className="min-h-full bg-slate-50 text-slate-900">
         <div className="flex min-h-screen flex-col">
           <SiteHeader />
