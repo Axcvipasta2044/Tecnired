@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, BadgeCheck, MapPin, ShieldCheck, Star } from "lucide-react";
 import { getTechnicianDetailsBySlug } from "@/lib/supabase-data";
 import { formatMoney } from "@/lib/utils";
+import { startConversationAction } from "@/app/actions/chat";
 
 export default async function TechnicianProfilePage({
   params,
@@ -185,6 +186,12 @@ export default async function TechnicianProfilePage({
               </span>
             </div>
             {tech.services.length === 0 && <p className="mt-4 text-sm text-slate-600">Este perfil todavía no tiene servicios publicados.</p>}
+            <form action={startConversationAction} className="mt-5 border-t border-slate-100 pt-5">
+              <input type="hidden" name="technician_id" value={tech.id} />
+              <button className="w-full rounded-xl border border-blue-200 px-4 py-3 text-sm font-semibold text-blue-700 hover:bg-blue-50">
+                Escribir al técnico
+              </button>
+            </form>
           </section>
         </aside>
       </div>

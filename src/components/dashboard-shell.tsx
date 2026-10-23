@@ -10,11 +10,14 @@ const navByRole = {
     { href: "/cliente", label: "Resumen" },
     { href: "/tecnicos", label: "Buscar técnicos" },
     { href: "/cliente/solicitudes", label: "Solicitudes" },
+    { href: "/cliente/chat", label: "Chat" },
+    { href: "/cliente/perfil", label: "Mi perfil" },
   ],
   technician: [
     { href: "/tecnico", label: "Resumen" },
     { href: "/tecnico/solicitudes", label: "Solicitudes" },
     { href: "/tecnico/perfil", label: "Mi perfil" },
+    { href: "/tecnico/chat", label: "Chat" },
   ],
   admin: [
     { href: "/admin", label: "Resumen" },

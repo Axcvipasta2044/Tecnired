@@ -5,6 +5,7 @@ import { requireUser } from "@/lib/auth";
 import { REQUEST_STATUS_LABELS, type RequestStatus } from "@/lib/constants";
 import { formatDate, formatMoney } from "@/lib/utils";
 import { getSupabaseServerClient } from "@/lib/supabase-server";
+import Link from "next/link";
 
 export default async function TechnicianRequestsPage() {
   const user = await requireUser("technician");
@@ -56,6 +57,7 @@ export default async function TechnicianRequestsPage() {
                 <span className="inline-flex items-center gap-2"><CalendarClock className="h-4 w-4" />{formatDate(request.preferred_date)}</span>
                 <span className="inline-flex items-center gap-2"><CircleDollarSign className="h-4 w-4" />{formatMoney(request.budget_max ?? request.budget_min)}</span>
               </div>
+              <Link href="/tecnico/chat" className="mt-4 inline-flex rounded-lg border border-blue-200 px-3 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50">Abrir chat</Link>
               {request.status === "pending" && (
                 <div className="mt-5 flex flex-wrap gap-3 border-t border-slate-100 pt-4">
                   {(["accepted", "rejected"] as const).map((status) => (

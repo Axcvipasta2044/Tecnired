@@ -1,3 +1,5 @@
+import Script from "next/script";
+
 export function ThemeScript() {
   const code = `
 (() => {
@@ -12,5 +14,5 @@ export function ThemeScript() {
 })();
 `;
 
-  return <script dangerouslySetInnerHTML={{ __html: code }} />;
+  return <Script id="tecnired-theme-script">{code}</Script>;
 }

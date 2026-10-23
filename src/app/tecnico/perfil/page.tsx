@@ -3,6 +3,7 @@ import { TechnicianProfileEditor } from "@/components/technician-profile-editor"
 import { requireUser } from "@/lib/auth";
 import { getCategories } from "@/lib/supabase-data";
 import { getSupabaseServerClient } from "@/lib/supabase-server";
+import { DisplayNameEditor } from "@/components/display-name-editor";
 
 export default async function TechnicianProfilePage() {
   const user = await requireUser("technician");
@@ -38,6 +39,8 @@ export default async function TechnicianProfilePage() {
 
   return (
     <DashboardShell role="technician" title="Mi perfil profesional" subtitle="Actualiza la información que ven tus posibles clientes.">
+      <div className="space-y-8">
+      <DisplayNameEditor displayName={user.displayName} />
       <TechnicianProfileEditor
         profile={profile}
         personal={personal}
@@ -46,6 +49,7 @@ export default async function TechnicianProfilePage() {
         categories={categories}
         services={services}
       />
+      </div>
     </DashboardShell>
   );
 }
