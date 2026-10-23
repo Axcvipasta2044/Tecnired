@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
 type NavItem = {
   href: string;
@@ -17,9 +18,24 @@ export function SiteMobileMenu({
   accountLinks: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!open) return;
+    const closeOnOutsideTouch = (event: PointerEvent) => {
+      if (!menuRef.current?.contains(event.target as Node)) setOpen(false);
+    };
+    document.addEventListener("pointerdown", closeOnOutsideTouch);
+    return () => document.removeEventListener("pointerdown", closeOnOutsideTouch);
+  }, [open]);
 
   return (
-    <div className="relative md:hidden">
+    <div ref={menuRef} className="relative md:hidden">
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
