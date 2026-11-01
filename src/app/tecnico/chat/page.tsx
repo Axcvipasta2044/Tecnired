@@ -6,5 +6,5 @@ import { requireUser } from "@/lib/auth";
 export default async function TechnicianChatPage({ searchParams }: { searchParams: Promise<{ conversation?: string }> }) {
   const user = await requireUser("technician");
   const { conversation } = await searchParams;
-  return <DashboardShell role="technician" title="Chat" subtitle="Responde a los clientes de tus solicitudes."><ChatView conversations={await getChatData()} selectedId={conversation} userId={user.id} /></DashboardShell>;
+  return <DashboardShell role="technician" title="Chat" subtitle="Conversa con clientes y otros técnicos."><ChatView conversations={await getChatData()} selectedId={conversation} userId={user.id} chatPath="/tecnico/chat" /></DashboardShell>;
 }
