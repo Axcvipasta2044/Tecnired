@@ -34,6 +34,7 @@ export async function SiteHeader() {
   );
 
   return (
+    <>
     <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 shadow-sm shadow-slate-200/40 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" aria-label={`${APP_NAME}, inicio`} className="group flex shrink-0 items-center gap-2 transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-4">
@@ -64,9 +65,17 @@ export async function SiteHeader() {
         </div>
         <div className="flex items-center gap-2 md:hidden">
           <ThemeToggle />
-          <SiteMobileMenu navItems={navItems} accountLinks={accountLinks} />
+          {user ? (
+            <SignOutButton />
+          ) : (
+            <Link href="/login" aria-label="Iniciar sesión" title="Iniciar sesión" className="interactive-button focus-ring flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700">
+              <UserRound className="h-5 w-5" />
+            </Link>
+          )}
         </div>
       </div>
     </header>
+    <SiteMobileMenu role={user?.role} />
+    </>
   );
 }

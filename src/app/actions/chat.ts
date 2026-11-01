@@ -25,19 +25,32 @@ export async function sendMessageAction(_previous: ChatFormState, formData: Form
 export async function startConversationAction(formData: FormData): Promise<void> {
   const technicianId = z.string().uuid().safeParse(formData.get("technician_id"));
   if (!technicianId.success) throw new Error("El técnico indicado no es válido.");
-  const user = await requireUser("client", "/tecnicos");
+  const user = await requireUser(undefined, "/tecnicos");
+  if (user.role === "admin") throw new Error("Esta cuenta no participa en chats.");
   const supabase = await getSupabaseServerClient();
   if (!supabase) throw new Error("Supabase no está configurado.");
-  const { data: technician } = await supabase.from("technician_profiles").select("id").eq("id", technicianId.data).eq("is_published", true).maybeSingle();
+  const { data: technician } = await supabase.from("technician_profiles").select("id,user_id").eq("id", technicianId.data).eq("is_published", true).maybeSingle();
   if (!technician) throw new Error("Este técnico no está disponible.");
+  let ownTechnicianId: string | null = null;
+  if (user.role === "technician") {
+    const { data: ownTechnician } = await supabase.from("technician_profiles").select("id").eq("user_id", user.id).maybeSingle();
+    if (!ownTechnician) throw new Error("No se encontró tu perfil técnico.");
+    if (ownTechnician.id === technician.id) throw new Error("No puedes iniciar un chat contigo mismo.");
+    ownTechnicianId = ownTechnician.id;
+  }
   const { data: existing, error: existingError } = await supabase.from("conversations").select("id").eq("client_id", user.id).eq("technician_id", technician.id).order("updated_at", { ascending: false }).limit(1).maybeSingle();
   if (existingError) throw new Error("No se pudo cargar la conversación.");
   let conversationId = existing?.id;
+  if (!conversationId && ownTechnicianId) {
+    const { data: reverse, error: reverseError } = await supabase.from("conversations").select("id").eq("client_id", technician.user_id).eq("technician_id", ownTechnicianId).order("updated_at", { ascending: false }).limit(1).maybeSingle();
+    if (reverseError) throw new Error("No se pudo cargar la conversación.");
+    conversationId = reverse?.id;
+  }
   if (!conversationId) {
     const { data: created, error } = await supabase.from("conversations").insert({ client_id: user.id, technician_id: technician.id }).select("id").single();
     if (error || !created) throw new Error("No se pudo iniciar la conversación.");
     conversationId = created.id;
   }
   revalidatePath("/cliente/chat"); revalidatePath("/tecnico/chat");
-  redirect(`/cliente/chat?conversation=${conversationId}`);
+  redirect(`${user.role === "technician" ? "/tecnico/chat" : "/cliente/chat"}?conversation=${conversationId}`);
 }

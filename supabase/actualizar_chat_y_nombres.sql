@@ -56,6 +56,22 @@ RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public AS
   );
 $$;
 
+CREATE OR REPLACE FUNCTION public.get_chat_participant_profiles(p_conversation_ids uuid[])
+RETURNS TABLE(conversation_id uuid, participant_id uuid, participant_name text, is_target_technician boolean)
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public AS $$
+  SELECT c.id, p.id,
+    COALESCE(NULLIF(BTRIM(p.display_name), ''), NULLIF(BTRIM(CONCAT_WS(' ', p.first_name, p.last_name)), ''), 'Usuario'),
+    p.id = tp.user_id
+  FROM public.conversations c
+  JOIN public.technician_profiles tp ON tp.id = c.technician_id
+  JOIN public.profiles p ON p.id = c.client_id OR p.id = tp.user_id
+  WHERE c.id = ANY(COALESCE(p_conversation_ids, ARRAY[]::uuid[]))
+    AND (c.client_id = auth.uid() OR public.owns_technician_profile(c.technician_id));
+$$;
+
+REVOKE ALL ON FUNCTION public.get_chat_participant_profiles(uuid[]) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.get_chat_participant_profiles(uuid[]) TO authenticated;
+
 CREATE OR REPLACE FUNCTION public.create_conversation_for_request()
 RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
 BEGIN
@@ -97,15 +113,17 @@ CREATE POLICY conversations_select_participant ON public.conversations FOR SELEC
   USING (client_id = auth.uid() OR public.owns_technician_profile(technician_id));
 
 DROP POLICY IF EXISTS conversations_insert_client ON public.conversations;
-CREATE POLICY conversations_insert_client ON public.conversations FOR INSERT TO authenticated
+DROP POLICY IF EXISTS conversations_insert_participant ON public.conversations;
+CREATE POLICY conversations_insert_participant ON public.conversations FOR INSERT TO authenticated
   WITH CHECK (
     client_id = auth.uid()
-    AND public.current_user_role() = 'client'
+    AND public.current_user_role() IN ('client', 'technician')
     AND EXISTS (
       SELECT 1 FROM public.technician_profiles tp
       WHERE tp.id = technician_id
         AND tp.is_published = true
     )
+    AND NOT public.owns_technician_profile(technician_id)
   );
 
 DROP POLICY IF EXISTS messages_select_participant ON public.messages;

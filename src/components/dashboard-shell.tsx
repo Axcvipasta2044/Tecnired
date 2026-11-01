@@ -61,7 +61,7 @@ export function DashboardShell({
             </div>
           </div>
 
-          <nav className="mt-6 flex flex-wrap gap-2">
+          <nav className={`mt-6 flex flex-wrap gap-2 ${role === "admin" ? "" : "max-md:hidden"}`}>
             {items.map((item) => {
               const active =
                 pathname === item.href ||
